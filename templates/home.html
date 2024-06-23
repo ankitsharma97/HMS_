@@ -1,0 +1,58 @@
+{% extends "./base.html" %}
+{% block content %}
+    <header class="mb-4">
+        <h1 class="text-center">Welcome to My Application</h1>
+    </header>
+
+    <main class="text-center">
+        <p class="lead">This is the home page of My Application</p>
+
+        <a href="{% url 'signup' %}" class="btn btn-primary m-2">Sign Up</a>
+        <a href="{% url 'login' %}" class="btn btn-secondary m-2">Log In</a>
+    </main>
+
+    <section class="mt-5">
+        <h2 class="text-center">Overview of Patient Health Monitoring System for Buruli Ulcer Patients</h2>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Home Page</h3>
+                    <p>Overview and login functionalities.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Dashboard</h3>
+                    <p>Patient treatment progress tracking.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Patient Profile Page</h3>
+                    <p>Patient info, medical history, and treatment plan.</p>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <h3>Treatment Tracking</h3>
+                    <p>Medication schedules and appointment tracking.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Healing Tracker</h3>
+                    <p>Wound healing status and photo uploads.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Patient Feedback</h3>
+                    <p>Surveys and feedback collection.</p>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h3>Reports</h3>
+                    <p>Visualization and report downloading.</p>
+                </div>
+                <div class="col-md-6">
+                    <h3>Admin Panel</h3>
+                    <p>View and manage all aspects of the system.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
