@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}My Appointments{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">All treatments Plan</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Doctor</th>
+                    <th>Description</th>
+                    <th>Total Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for treatment in treatments %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{treatment.name}}</td>
+                    <td>{{ treatment.doctor }}</td>
+                    <td>{{ treatment.description }}</td>
+                    <td>{{ treatment.spending }}</td>
+                    <td><a href="{% url "appointment" treatment.id %}" class="btn btn-sm btn-primary">Take Appointment</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

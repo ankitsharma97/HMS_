@@ -1,88 +1,85 @@
 {% extends 'base.html' %}
+
+{% block title %}Patient Dashboard{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="2">Patient Information</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Name:</strong></td>
-                        <td>{{ patient.name }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Phone:</strong></td>
-                        <td>{{ patient.phone }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Age:</strong></td>
-                        <td>{{ patient.age }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="card mt-3">
+    <h1 class="text-center">Patient Dashboard</h1>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-header bg-primary text-white">
+                    Profile
+                </div>
                 <div class="card-body">
-                    <h4 class="card-title">Medical History</h4>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Doctor</th>
-                                <th>Diagnosis</th>
-                                <th>Prescription</th>
-                                <th>Spending</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for history in historys %}
-                            <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ history.doctor }}</td>
-                                <td>{{ history.disease }}</td>
-                                <td>{{ history.plan.description }}</td>
-                                <td>{{ history.plan.spending }}</td>
-                                <td>{{ history.date }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <p><strong>Name:</strong> {{ patient.name }}</p>
+                    <p><strong>Email:</strong> {{ patient.user.email }}</p>
+                    <p><strong>Phone:</strong> {{ patient.phone }}</p>
+                    <a href="{% url "editprofile" %}" class="btn btn-primary">Edit Profile</a>
                 </div>
             </div>
-            <div class="card mt-3">
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-header bg-success text-white">
+                    Appointments
+                </div>
                 <div class="card-body">
-                    <h4 class="card-title">Treatment Plans</h4>
-                    
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Doctor</th>
-                                <th>Description</th>
-                                <th>Total Spend</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for treatment in plans %}
-                            <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ treatment.doctor }}</td>
-                                <td>{{ treatment.description }}</td>
-                                <td>{{ treatment.spending }}</td>
-                                <td><a href="{% url "appointment" treatment.id %}" class="btn btn-sm btn-primary">Take</a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    
+                    <p>View and manage your appointments.</p>
+                    <a href="{% url "viewappointments" %}" class="btn btn-success">View Appointments</a>
+                    <a href="{% url "appointment" 9999 %}" class="btn btn-success mt-2">New Appointment</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-header bg-warning text-white">
+                    Medical History
+                </div>
+                <div class="card-body">
+                    <p>Check your medical history.</p>
+                    <a href="{% url 'viewhistory' %}" class="btn btn-warning">View Medical History</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-header bg-info text-white">
+                    Reports
+                </div>
+                <div class="card-body">
+                    <p>Upload and view your medical reports.</p>
+                    <a href="{% url 'report' %}" class="btn btn-info">View Reports</a>
+                    <a href="" class="btn btn-info">Upload Report</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-header bg-danger text-white">
+                    Feedback
+                </div>
+                <div class="card-body">
+                    <p>Provide feedback about our services.</p>
+                    <a href="{% url 'feedback' %}" class="btn btn-danger">Give Feedback</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock content %}
+
+<style>
+    .card-custom {
+        width: 100%;
+        height: 300px; /* Fixed height */
+        display: flex;
+        flex-direction: column;
+    }
+    .card-body {
+        flex: 1;
+        overflow: auto;
+    }
+</style>
+{% endblock %}

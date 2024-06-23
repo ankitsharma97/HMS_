@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}View Appointments{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Your Appointments</h1>
+    {% if appointments %}
+        <table class="table table-striped mt-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Doctor</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ appointment.doctor.name }}</td>
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.time }}</td>
+                        <td>{{ appointment.status }}</td>
+                        <td><a class="btn btn-sm btn-danger" href="{% url "deleteappointment" appointment.id %}">Cencel</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-center">You have no appointments.</p>
+    {% endif %}
+</div>
+{% endblock %}
