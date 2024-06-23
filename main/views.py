@@ -178,6 +178,7 @@ def feedback(request):
         subject = request.POST.get('subject')
         message = request.POST.get('message')
         Feedback.objects.create(name=name, email=email, subject=subject, message=message)
+        return redirect('viewfeedback')
     return render(request, 'feedback.html', {'name': name})
 
 @login_required
@@ -193,7 +194,6 @@ def Viewhistory(request):
     patient = Patient.objects.get(user=user)
     historys = History.objects.filter(patient=patient)
     return render(request, 'history.html', {'historys': historys})
-
 
 @login_required
 def polls(request):
@@ -248,3 +248,32 @@ def polls(request):
         poll_data.append(poll_info)
 
     return render(request, 'poll.html', {'poll_data': poll_data})
+
+def addhistory(request):
+    if request.method == "POST":
+        doctor_id = request.POST.get('doctor')
+        plan_id = request.POST.get('plan')
+        disease = request.POST.get('disease')
+        date = request.POST.get('date')
+        
+        doctor = Doctor.objects.get(id=doctor_id)
+        plan = TreatmentPlan.objects.get(id=plan_id)
+        
+        History.objects.create(
+            patient=request.user.patient,
+            doctor=doctor,
+            plan=plan,
+            disease=disease,
+            date=date
+        )
+        
+        return redirect('viewhistory')
+    
+    doctors = Doctor.objects.all()
+    plans = TreatmentPlan.objects.all()
+    return render(request, 'addhistory.html', {'doctors': doctors, 'plans': plans})
+
+
+def viewfeedback(request):
+    feedbacks = Feedback.objects.all()
+    return render(request, 'viewfeedback.html', {'feedbacks': feedbacks})
