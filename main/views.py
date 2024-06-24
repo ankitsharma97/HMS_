@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from .decorators import patient_required
 from .models import Doctor, Patient, Status, Appointment, Report, Feedback, TreatmentPlan, History,WoundHealing,Polls,Answer
 from django.contrib.auth import update_session_auth_hash
 # Create your views here.
@@ -52,12 +53,12 @@ def signup(request):
         return redirect('login')
     return render(request, 'signup.html',)
 
-@login_required
+@patient_required
 def logout(request):
     auth_logout(request)
     return redirect('home')
 
-@login_required
+@patient_required
 def passchange(request):
     user = request.user
     error = None
@@ -78,11 +79,11 @@ def passchange(request):
         'error': error
     })
     
-@login_required
+@patient_required
 def doctor(request):
     return HttpResponse("Doctor Page")
 
-@login_required
+@patient_required
 def patient(request):
     user = request.user
     patient = Patient.objects.get(user=user)
@@ -90,7 +91,7 @@ def patient(request):
     plans = TreatmentPlan.objects.all()
     return render(request, 'patient_dash.html', {'patient': patient, 'historys': historys, 'plans': plans})
 
-@login_required
+@patient_required
 def editprofile(request):
     user = request.user
     patient = Patient.objects.get(user=user)
@@ -111,7 +112,7 @@ def editprofile(request):
         return redirect('patient')
     return render(request, 'editprofile.html', {'patient': patient})
 
-@login_required
+@patient_required
 def viewappointments(request):
     user = request.user
     patient = Patient.objects.get(user=user)
@@ -119,7 +120,7 @@ def viewappointments(request):
     
     return render(request, 'viewappointment.html', {'appointments': appointments})
 
-@login_required
+@patient_required
 def appointment(request, aptId):
     user = request.user
     if aptId==9999:
@@ -148,18 +149,18 @@ def appointment(request, aptId):
     else:
         return render(request, 'appointment.html', { 'doctors': doctors})
 
-@login_required
+@patient_required
 def deleteappointment(request, aptId):
     Appointment.objects.get(id=aptId).delete()
     return redirect('viewappointments')
 
-@login_required
+@patient_required
 def  plans(request):
     user = request.user
     treatments = TreatmentPlan.objects.all()
     return render(request, 'viewtreatments.html', {'treatments': treatments})
     
-@login_required
+@patient_required
 def health(request):
     if request.method == 'POST' and request.FILES.get('photos'):
         date = request.POST.get('date')
@@ -169,7 +170,7 @@ def health(request):
 
     return render(request, 'heal_wound.html')
 
-@login_required
+@patient_required
 def feedback(request):
     name = request.session.get('name')
     if request.method == 'POST':
@@ -181,21 +182,21 @@ def feedback(request):
         return redirect('viewfeedback')
     return render(request, 'feedback.html', {'name': name})
 
-@login_required
+@patient_required
 def report(request):
     patient = Patient.objects.get(user=request.user)
     reports = Report.objects.filter(patient=patient)
     
     return render(request, 'report.html', {'reports': reports})
 
-@login_required
+@patient_required
 def Viewhistory(request):
     user = request.user
     patient = Patient.objects.get(user=user)
     historys = History.objects.filter(patient=patient)
     return render(request, 'history.html', {'historys': historys})
 
-@login_required
+@patient_required
 def polls(request):
     polls = Polls.objects.all()
     poll_data = []
@@ -249,6 +250,7 @@ def polls(request):
 
     return render(request, 'poll.html', {'poll_data': poll_data})
 
+@patient_required
 def addhistory(request):
     if request.method == "POST":
         doctor_id = request.POST.get('doctor')
@@ -273,7 +275,7 @@ def addhistory(request):
     plans = TreatmentPlan.objects.all()
     return render(request, 'addhistory.html', {'doctors': doctors, 'plans': plans})
 
-
+@patient_required
 def viewfeedback(request):
     feedbacks = Feedback.objects.all()
     return render(request, 'viewfeedback.html', {'feedbacks': feedbacks})
