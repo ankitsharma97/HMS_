@@ -21,12 +21,8 @@ def login(request):
         user = authenticate(username=email, password=password)
         if user:
             auth_login(request, user)
-            if Doctor.objects.filter(user=user).exists():
-                request.session['name'] = Doctor.objects.get(user=user).name
-                return redirect('doctor')
-            else:
-                request.session['name'] = Patient.objects.get(user=user).name
-                return redirect('patient')
+            request.session['name'] = Patient.objects.get(user=user).name
+            return redirect('patient')
         else:
             return render(request, 'login.html', {'error': 'Invalid credentials'})
     return render(request, 'login.html')
@@ -46,10 +42,8 @@ def signup(request):
         if User.objects.filter(email=email).exists():
             return render(request, 'signup.html', {'error': 'Email already exists'})
         user = User.objects.create_user(username=email, email=email, password=password)
-        if user_type == 'doctor':
-            Doctor.objects.create(user=user, name=name, phone=phone, age=age)
-        else:
-            Patient.objects.create(user=user, name=name, phone=phone, age=age)
+
+        Patient.objects.create(user=user, name=name, phone=phone, age=age)
         return redirect('login')
     return render(request, 'signup.html',)
 
