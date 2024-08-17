@@ -64,9 +64,8 @@ class Feedback(models.Model):
     
 class TreatmentPlan(models.Model):
     name = models.CharField(max_length=100, default='Treatment Plan')
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    spending = models.FloatField(default=0) 
     description = models.TextField()
+    antibiotic_names = models.CharField(max_length=255, help_text="Comma-separated list of antibiotics used in the treatment" ,default="")
 
     def __str__(self):
         return self.name

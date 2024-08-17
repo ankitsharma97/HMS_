@@ -36,7 +36,6 @@ def signup(request):
         password1 = request.POST['password1']
         phone = request.POST['phone']
         age = request.POST['age']
-        user_type = request.POST['user_type']
         if password != password1:
             return render(request, 'signup.html', {'error': 'Password does not match'})
         if User.objects.filter(email=email).exists():
