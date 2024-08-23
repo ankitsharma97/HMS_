@@ -47,7 +47,8 @@
             <a class="nav-link text-white shadow mx-2" href="{% url "viewhistory"  %}">History</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white shadow" href="{% url "health"  %}">Update Wound </a>
+            {% comment %} <a class="nav-link text-white shadow" href="{% url "health"  %}">Update Wound </a> {% endcomment %}
+            <a class="nav-link text-white shadow" href="{% url "viewwound"  %}">Update Wound </a>
           </li>
           <li class="nav-item dropdown shadow mx-2">
             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

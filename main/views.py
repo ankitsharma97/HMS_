@@ -152,6 +152,16 @@ def  plans(request):
     user = request.user
     treatments = TreatmentPlan.objects.all()
     return render(request, 'viewtreatments.html', {'treatments': treatments})
+   
+
+@patient_required
+def viewwound(request):
+    user = request.user
+    patient = Patient.objects.get(user=user)
+    wounds = WoundHealing.objects.filter(patient=user)
+    
+    return render(request, 'view_wound.html', {'wound_reports': wounds})
+
     
 @patient_required
 def health(request):
@@ -160,6 +170,7 @@ def health(request):
         description = request.POST.get('description')
         photos = request.FILES['photos']
         WoundHealing.objects.create(patient=request.user, date=date, description=description, photos=photos)
+        return redirect('viewwound')
 
     return render(request, 'heal_wound.html')
 
@@ -176,11 +187,30 @@ def feedback(request):
     return render(request, 'feedback.html', {'name': name})
 
 @patient_required
-def report(request):
+def viewreport(request):
     patient = Patient.objects.get(user=request.user)
     reports = Report.objects.filter(patient=patient)
-    
     return render(request, 'report.html', {'reports': reports})
+
+
+@patient_required
+def report(request):
+    if request.method == 'POST':
+        doctor_id = request.POST.get('doctor')
+        report_file = request.FILES.get('report')
+        date = request.POST.get('date')
+
+        patient_instance = Patient.objects.get(user=request.user)
+        doctor_instance = Doctor.objects.get(id=doctor_id)
+
+        Report.objects.create(patient=patient_instance, doctor=doctor_instance, report=report_file, date=date)
+        
+        return redirect('report')  
+    
+    doctors = Doctor.objects.all()  
+    return render(request, 'upload_report.html', {'doctors': doctors})
+
+
 
 @patient_required
 def Viewhistory(request):
